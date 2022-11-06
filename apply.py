@@ -13,7 +13,7 @@ from selenium.webdriver.common.by import By
 
 # Selenium Conections
 driver = webdriver.Chrome(executable_path='/home/mauri/Desktop/BotJob-0.1/chromedriver')
-driver.minimize_window()
+#driver.minimize_window()
 
 
 postulated = 0
