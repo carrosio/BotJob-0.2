@@ -10,15 +10,6 @@ import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-
-# Selenium Conections
-driver = webdriver.Chrome(executable_path='/home/mauri/Desktop/BotJob-0.1/chromedriver')
-#driver.minimize_window()
-
-
-postulated = 0
-new_jobs_applayed = []
-
 def clear():
  
     # for windows
@@ -28,8 +19,6 @@ def clear():
     # for mac and linux(here, os.name is 'posix')
     else:
         _ = system('clear')
-
-clear()
 
 def loggin():
     try:
@@ -61,22 +50,36 @@ def loggin():
 
         pass
 
-questions = []
-
-def process():
+def process(id=0):
     text_areas = driver.find_elements(By.CLASS_NAME, 'field_textarea')
     for area in text_areas:
         print(area.find_element(By.TAG_NAME, 'label').text)
         questions.append(area.find_element(By.TAG_NAME, 'label').text)
         
-    
+clear()
+
+# Selenium Conections
+driver = webdriver.Chrome(executable_path='/home/mauri/Desktop/BotJob-0.1/chromedriver')
+#driver.minimize_window()
+
+postulated = 0
+new_jobs_applayed = []
+
+questions = []
+
+data_jobs = pd.read_json('data.json')
+jobs_links_arr = data_jobs.link.array
+
 
 with open('used.json', 'r') as openfile:
     used_jobs = json.load(openfile)
 
-data_jobs = pd.read_json('data.json')
+questions_df = pd.read_json('questions.json')
 
-jobs_links_arr = data_jobs.link.array
+#with open('questions.json', 'r') as openfile:
+#    questions_file = json.load(openfile)
+
+
 #print(data_jobs)
 for i, job in enumerate(jobs_links_arr):
 
@@ -102,6 +105,9 @@ for i, job in enumerate(jobs_links_arr):
         try:
             input_btm = driver.find_element(By.TAG_NAME, 'input')
             process()
+            pd.DataFrame(questions, index=['Question']).to_json('questions.json')
+
+
         except:
             pass
         
@@ -112,7 +118,6 @@ for i, job in enumerate(jobs_links_arr):
         with open("used.json", "w") as outfile:
                     json.dump(used_jobs, outfile)
 
-        pd.DataFrame(questions, index=['Question']).to_json('questions.json')
 
     except:
         continue
