@@ -22,6 +22,7 @@ def clear():
 
 def loggin():
     try:
+        driver.maximize_window()
         #driver.find_element(By.ID, POSTULATE)
         mail_btm = driver.find_element(
             By.XPATH, '/html/body/section/div/form/div[1]/div[3]/input')
@@ -42,6 +43,7 @@ def loggin():
         next_btm = driver.find_element(
             By.XPATH, "/html/body/section/div/form/div[2]/button")
         next_btm.click()
+        driver.minimize_window()
         pass
 
         """driver.get(job)
@@ -53,14 +55,14 @@ def loggin():
 def process(id=0):
     text_areas = driver.find_elements(By.CLASS_NAME, 'field_textarea')
     for area in text_areas:
-        print(area.find_element(By.TAG_NAME, 'label').text)
-        questions.append(area.find_element(By.TAG_NAME, 'label').text)
+        text = area.find_element(By.TAG_NAME, 'label').text
+        return text
         
 clear()
 
 # Selenium Conections
 driver = webdriver.Chrome(executable_path='/home/mauri/Desktop/BotJob-0.1/chromedriver')
-#driver.minimize_window()
+driver.minimize_window()
 
 postulated = 0
 new_jobs_applayed = []
@@ -74,7 +76,10 @@ jobs_links_arr = data_jobs.link.array
 with open('used.json', 'r') as openfile:
     used_jobs = json.load(openfile)
 
-questions_df = pd.read_json('questions.json')
+with open('questions.json', 'r') as openfile:
+    questions_jobs = json.load(openfile)
+
+print(questions_jobs)
 
 #with open('questions.json', 'r') as openfile:
 #    questions_file = json.load(openfile)
@@ -104,8 +109,10 @@ for i, job in enumerate(jobs_links_arr):
         
         try:
             input_btm = driver.find_element(By.TAG_NAME, 'input')
-            process()
-            pd.DataFrame(questions, index=['Question']).to_json('questions.json')
+            questions_jobs.append(process())
+
+            with open("questions.json", "w") as outfile:
+                    json.dump(questions_jobs, outfile)
 
 
         except:

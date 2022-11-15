@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 
 driver = webdriver.Chrome(
     executable_path='/home/mauri/Desktop/BotJob-0.1/chromedriver')
-#driver.minimize_window()
+driver.minimize_window()
 
 jobs_saved = pd.read_json('data.json')
 
@@ -47,7 +47,7 @@ for i in range(1, 10):
 
         if article.get_attribute('id') in jobs_saved.id.array:
             print('Already Saved Job', article.get_attribute('id'))
-            next = False
+            #next = False
             break
             
         final_link = 0

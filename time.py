@@ -14,12 +14,14 @@ def clear():
 
 i = 0
 
+wait_time = 90
 
 while True:
-   
+    
     time.sleep(1)
     i = i + 1
-    print("Seconds Remaning: ",(90 - i),"s.")
-    if i >= 90:
+    print("Seconds Remaning: ",(wait_time - i),"s.")
+    if i >= wait_time:
         break
+    
     
