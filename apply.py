@@ -10,11 +10,9 @@ import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-
 # Selenium Conections
-driver = webdriver.Chrome(executable_path='/home/mauri/Desktop/BotJob-0.1/chromedriver')
+driver = webdriver.Chrome(executable_path='/home/mauri/Documents/Repos/BotJob-0.3/chromedriver')
 driver.minimize_window()
-
 
 postulated = 0
 new_jobs_applayed = []
@@ -61,7 +59,6 @@ def loggin():
 
         pass
 
-questions = []
 
 def process():
     text_areas = driver.find_elements(By.CLASS_NAME, 'field_textarea')
@@ -69,15 +66,16 @@ def process():
         print(area.find_element(By.TAG_NAME, 'label').text)
         questions.append(area.find_element(By.TAG_NAME, 'label').text)
         
-    
-
 with open('used.json', 'r') as openfile:
     used_jobs = json.load(openfile)
+
+with open('questions.json') as openfile:
+    questions = json.load(openfile)
 
 data_jobs = pd.read_json('data.json')
 
 jobs_links_arr = data_jobs.link.array
-#print(data_jobs)
+
 for i, job in enumerate(jobs_links_arr):
 
     proceded = round((i / len(jobs_links_arr))* 100) 
@@ -85,9 +83,6 @@ for i, job in enumerate(jobs_links_arr):
     print("Proceded Jobs: ", proceded, "%")
 
     if job in used_jobs:
-        #data_jobs_filter = data_jobs.filter(items=[i], axis=0)
-        #print("Already used", data_jobs_filter.name )
-    
         continue
     
     try:
@@ -102,6 +97,10 @@ for i, job in enumerate(jobs_links_arr):
         try:
             input_btm = driver.find_element(By.TAG_NAME, 'input')
             process()
+            
+            with open("questions.json", "w") as outfile:
+                    json.dump(questions, outfile)
+
         except:
             pass
         
@@ -111,8 +110,6 @@ for i, job in enumerate(jobs_links_arr):
         
         with open("used.json", "w") as outfile:
                     json.dump(used_jobs, outfile)
-
-        pd.DataFrame(questions, index=['Question']).to_json('questions.json')
 
     except:
         continue

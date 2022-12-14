@@ -5,20 +5,9 @@ from os import system, name
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-
-# Selenium Conections
-#chromeDriverPath = '/home/mauri/Documents'
-#profilePath = '/home/mauri/.config/google-chrome-beta/'
-#chromeOptions = webdriver.ChromeOptions()
-# chromeOptions.add_argument(f"--user-data-dir={profilePath}")
-#driver = webdriver.Chrome(options=chromeOptions)
-#driver.set_window_size(600, 1000)
 driver = webdriver.Chrome(
-    executable_path='/home/mauri/Desktop/BotJob-0.1/chromedriver')
+    executable_path='chromedriver')
 driver.minimize_window()
-# try:
-
-#next_btm = "/html/body/main/div[4]/div[2]/div[1]/nav/span[6]"
 
 jobs_saved = pd.read_json('data.json')
 
@@ -31,7 +20,7 @@ if len(jobs_saved) < 1:
 
     jobs_saved = pd.DataFrame(xample)
 
-link_base = "https://ar.computrabajo.com/empleos-en-capital-federal?by=publicationtime&pubdate=1&p="
+link_base = pd.read_json('config.json').link[0]
 
 #temp_json = []
 

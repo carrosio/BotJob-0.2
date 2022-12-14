@@ -6,9 +6,10 @@ cd Desktop/BotJob-0.1
 #conda activate base
 while true
 do
-    
-    python3 find2.py
+    python3 check.py
+    python3 find.py
     python3 apply.py
     python3 time.py
+    
 
 done
