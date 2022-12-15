@@ -16,6 +16,9 @@ driver.minimize_window()
 
 postulated = 0
 new_jobs_applayed = []
+timeuot = 15
+start_time = time.perf_counter()
+
 
 def clear():
  
@@ -78,6 +81,7 @@ jobs_links_arr = data_jobs.link.array
 
 for i, job in enumerate(jobs_links_arr):
 
+ 
     proceded = round((i / len(jobs_links_arr))* 100) 
 
     print("Proceded Jobs: ", proceded, "%")
@@ -87,9 +91,11 @@ for i, job in enumerate(jobs_links_arr):
     
     try:
         driver.get(job)
+        if time.perf_counter() - start_time >= timeuot:
+            break 
     except:
         continue
-
+    
     try:
         driver.find_element(By.XPATH, POSTULATE).click()
         loggin()
@@ -110,9 +116,12 @@ for i, job in enumerate(jobs_links_arr):
         
         with open("used.json", "w") as outfile:
                     json.dump(used_jobs, outfile)
-
+        
+       
     except:
         continue
+
+    
     
 print("New jobs applayed: ", len(new_jobs_applayed))
 

@@ -20,16 +20,19 @@ if len(jobs_saved) < 1:
 
     jobs_saved = pd.DataFrame(xample)
 
-link_base = pd.read_json('config.json').link[0]
-
+config = pd.read_json('config.json')
+link_base = config.link[0]
+limit_find = config.limit_jobs[0]
 #temp_json = []
 
 next = True
 
 for i in range(1, 999):
+    
+    if i == int(limit_find):
+        break
 
-    driver.get(
-        f'{link_base}{i}')
+    driver.get(f'{link_base}{i}')
 
     #driver.find_element(By.TAG_NAME, next_btm).click()
 
