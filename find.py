@@ -29,6 +29,9 @@ next = True
 
 for i in range(1, 999):
     
+    if not next:
+        break
+
     if i == int(limit_find):
         break
 
@@ -48,7 +51,7 @@ for i in range(1, 999):
 
         if article.get_attribute('id') in jobs_saved.id.array:
             print('Already Saved Job', article.get_attribute('id'))
-            continue
+            next = False
 
         final_link = 0
         name = 0
